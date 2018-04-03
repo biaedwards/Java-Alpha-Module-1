@@ -1,6 +1,7 @@
 package ArraysAndArrayLists;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class SubsetOfSumS {
@@ -12,15 +13,32 @@ public class SubsetOfSumS {
         for (int i = 0; i < tokensString.length; i++) {
             tokens[i] = Integer.parseInt(tokensString[i]);
         }
-
-        if (checkDiff(tokens, S)) {
-//        int start = 0;
-//        if (addMoreNumbers(tokens, S, start, 0)) {
+        HashMap<String, Boolean> mem = new HashMap<>();
+        if(DP(tokens, S, tokens.length-1, mem)){
             System.out.println("yes");
-        } else {
+        } else{
             System.out.println("no");
         }
+    }
 
+    static boolean DP(int[] tokens, int sum, int limit, HashMap<String, Boolean> mem){
+        String key = sum + ":" + limit;
+        boolean toReturn;
+        if(mem.containsKey(key)){
+            return mem.get(key);
+        }  else if(sum==0){
+            return true;
+        } else if(sum<0){
+            return false;
+        } else if(limit<0){
+            return false;
+        } else if(sum<tokens[limit]){
+            toReturn = DP(tokens, sum, limit-1, mem);
+        } else{
+            toReturn = DP(tokens, sum, limit-1, mem)||DP(tokens, sum-tokens[limit], limit-1, mem);
+        }
+        mem.put(key, toReturn);
+        return toReturn;
     }
 
     private static boolean addMoreNumbers(int[] tokens, int S, int start, int position) {
