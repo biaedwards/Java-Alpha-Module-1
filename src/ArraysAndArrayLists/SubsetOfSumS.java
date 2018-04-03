@@ -2,6 +2,7 @@ package ArraysAndArrayLists;
 
 import java.util.ArrayList;
 //import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class SubsetOfSumS {
@@ -13,11 +14,7 @@ public class SubsetOfSumS {
         for (int i = 0; i < tokensString.length; i++) {
             tokens[i] = Integer.parseInt(tokensString[i]);
         }
-        if (isPossible(tokens, S)) {
-            System.out.println("yes");
-        } else {
-            System.out.println("no");
-        }
+        System.out.println(isPossible2(tokens, S)? "yes" : "no");
     }
 
     static boolean isPossible(int[] tokens, int S) {
@@ -36,6 +33,26 @@ public class SubsetOfSumS {
             }
         }
         return false;
+    }
+
+    static boolean isPossible2(int[] tokens, int S){
+        Arrays.sort(tokens);
+        boolean[][] possible = new boolean[S+1][tokens.length+1];
+        int x = possible.length;
+        int y = possible[0].length;
+        for (int i = 0; i < y; i++) {
+            possible[0][i]=true;
+        }
+        for (int i = 1; i < x; i++) {
+            for (int j = 1; j < y; j++) {
+                if(possible[i][j-1]){
+                    possible[i][j] = true;
+                } else if(i>=tokens[j-1]){
+                    possible[i][j] = possible[i-tokens[j-1]][j-1];
+                }
+            }
+        }
+        return possible[S][tokens.length];
     }
 
 //    static boolean DP(int[] tokens, int sum, int limit, HashMap<String, Boolean> mem) {
