@@ -23,7 +23,8 @@ public class Labirynth {
                 }
             }
         }
-        findPath(lab, startR, startC, finishR, finishC);
+        System.out.println(pathExists(lab, startR, startC, finishR, finishC)? "yes":"no");
+//        findPath(lab, startR, startC, finishR, finishC);
     }
 
     static void findPath(char[][] lab, int startR, int startC, int finishR, int finishC) {
@@ -52,5 +53,30 @@ public class Labirynth {
             findPath(lab, currentR, currentC, finishR, finishC);
             lab[currentR][currentC] = ' ';
         }
+    }
+
+    static boolean pathExists(char[][] lab, int startR, int startC, int finishR, int finishC) {
+        int[] directionsR = {0, 1, 0, -1};
+        int[] directionsC = {-1, 0, 1, 0};
+        for (int dir = 0; dir < directionsR.length; dir++) {
+            int currentR = startR+directionsR[dir];
+            int currentC = startC + directionsC[dir];
+            if(currentR>=lab.length||currentC>=lab[0].length||currentR<0||currentC<0){
+                continue;
+            }
+            if (lab[currentR][currentC] != ' ' && lab[currentR][currentC] != 'F') {
+                continue;
+            }
+            if (currentR == finishR && currentC == finishC) {
+                return true;
+            }
+            lab[currentR][currentC] = '_';
+            boolean hasPath = pathExists(lab, currentR, currentC, finishR, finishC);
+            lab[currentR][currentC] = ' ';
+            if(hasPath){
+                return hasPath;
+            }
+        }
+       return false;
     }
 }
