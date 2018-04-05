@@ -26,33 +26,24 @@ public class MessagesInBottle {
                 i = j-1;
             }
         }
-        ArrayList<StringBuilder> translated = new ArrayList<>();
-        translateMessage(message, codes, translated, new StringBuilder());
-        ArrayList<String> translatedSorted = new ArrayList<>();
-        for (StringBuilder aTranslated: translated) {
-            translatedSorted.add(aTranslated.toString());
-        }
-        Collections.sort(translatedSorted);
+        ArrayList<String> translated = new ArrayList<>();
+        translateMessage(message, codes, translated, new String());
+        Collections.sort(translated);
         System.out.println(translated.size());
         for (int i = 0; i <translated.size(); i++) {
-            System.out.println(translatedSorted.get(i));
+            System.out.println(translated.get(i));
         }
     }
 
-    static void translateMessage(String message, HashMap<String, Character> codes, ArrayList<StringBuilder> translated, StringBuilder translation){
-        StringBuilder current = new StringBuilder();
+    static void translateMessage(String message, HashMap<String, Character> codes, ArrayList<String> translated, String translation){
+        if(message.length()==0){
+            translated.add(translation);
+            return;
+        }
         for (int i = 0; i < message.length(); i++) {
-            current.append(message.charAt(i));
-            if(codes.containsKey(String.valueOf(current))){
-                translation.append(codes.get(String.valueOf(current)));
-                if(i==message.length()-1){
-                    StringBuilder answer = new StringBuilder(translation);
-                    translated.add(answer);
-                    translation.deleteCharAt(translation.length()-1);
-                    return;
-                }
-                translateMessage(message.substring(i+1), codes, translated, translation);
-                translation.deleteCharAt(translation.length()-1);
+            String current = message.substring(0, i+1);
+            if(codes.containsKey(current)){
+                translateMessage(message.substring(i+1), codes, translated, translation+codes.get(current));
             }
         }
     }
