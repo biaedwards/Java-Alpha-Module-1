@@ -9,24 +9,9 @@ public class Numerology {
         String birth = in.nextLine();
         int[] options = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         countOptions(birth, options);
-        int totalSum = 0;
-        for (int option : options) {
-           totalSum+=option;
-        }
-        String[] results = {"You are a very good programmer",
-                "You will create very useful programs","You are ugly","You will always depend on an IDE",
-                "You like strange languages","You loath science fiction","6? 6 is still a mystery to Pesho","You think class inheritance is magic",
-                "You do not mind dynamic typing","You are going to be famous"};
-
-        for (int i=0; i<options.length; i++) {
-            double percentage = options[i]*100/totalSum;
-            DecimalFormat df = new DecimalFormat("#.#");
-            if(percentage==0){
-                continue;
-            }
-            System.out.print(df.format(percentage)+"%   ");
-            System.out.println(results[i]);
-        }
+      for(int anOption:options){
+          System.out.printf("%d ", anOption);
+      }
     }
 
     static void countOptions(String birth, int[] options) {
