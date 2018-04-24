@@ -1,4 +1,4 @@
-package BGCoder;
+package SecondExam;
 
 import java.util.Scanner;
 
@@ -30,16 +30,18 @@ public class JoroTheNaughty {
     }
 
     static void escape(int rows, int cols, int[] start, int[][] jumps, int[][] playground) {
-        int sum = playground[start[0]][start[1]];
+        long sum = playground[start[0]][start[1]];
         playground[start[0]][start[1]] = 0;
         for (int i = 0; i < jumps.length; i++) {
             start[0] += jumps[i][0];
             start[1] += jumps[i][1];
             if (start[0] >= rows || start[1] >= cols || start[0] < 0 || start[1] < 0) {
                 System.out.println("escaped " + sum);
+                return;
             }
             if (playground[start[0]][start[1]] == 0) {
                 System.out.println("caught " + sum);
+                return;
             }
             sum += playground[start[0]][start[1]];
             playground[start[0]][start[1]] = 0;
